@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpListeners() {
         button_add_note.setOnClickListener {
-//            val intent = Intent(this, AddEditNote::class.java)
+            val intent = Intent(this, AddEditTask::class.java)
             startActivityForResult(intent, ADD_NOTE_REQUEST)
         }
 
@@ -76,23 +76,23 @@ class MainActivity : AppCompatActivity() {
         recycler_view.setHasFixedSize(true)
 
         adapter = NoteAdapter { text, clickedNote ->
-//            if (text.equals("delete")) {
-//                val intent = Intent(this, AddEditNote::class.java)
-//                intent.putExtra(EXTRA_ID, clickedNote.id)
-//                intent.putExtra(EXTRA_TITLE, clickedNote.title)
-//                intent.putExtra(EXTRA_DESCRIPTION, clickedNote.description)
-//                intent.putExtra(EXTRA_PRIORITY, clickedNote.priority)
-//                startActivityForResult(intent, DELETE_NOTE_REQUEST)
-//
-//            } else if (text.equals("edit")) {
-//
-//                val intent = Intent(this, AddEditNote::class.java)
-//                intent.putExtra(EXTRA_ID, clickedNote.id)
-//                intent.putExtra(EXTRA_TITLE, clickedNote.title)
-//                intent.putExtra(EXTRA_DESCRIPTION, clickedNote.description)
-//                intent.putExtra(EXTRA_PRIORITY, clickedNote.priority)
-//                startActivityForResult(intent, EDIT_NOTE_REQUEST)
-//            }
+            if (text.equals("delete")) {
+                val intent = Intent(this, AddEditTask::class.java)
+                intent.putExtra(EXTRA_ID, clickedNote.id)
+                intent.putExtra(EXTRA_TITLE, clickedNote.title)
+                intent.putExtra(EXTRA_DESCRIPTION, clickedNote.description)
+                intent.putExtra(EXTRA_PRIORITY, clickedNote.priority)
+                startActivityForResult(intent, DELETE_NOTE_REQUEST)
+
+            } else if (text.equals("edit")) {
+
+                val intent = Intent(this, AddEditTask::class.java)
+                intent.putExtra(EXTRA_ID, clickedNote.id)
+                intent.putExtra(EXTRA_TITLE, clickedNote.title)
+                intent.putExtra(EXTRA_DESCRIPTION, clickedNote.description)
+                intent.putExtra(EXTRA_PRIORITY, clickedNote.priority)
+                startActivityForResult(intent, EDIT_NOTE_REQUEST)
+            }
 
         }
         recycler_view.adapter = adapter
@@ -100,42 +100,43 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-//        if (data != null && requestCode == ADD_NOTE_REQUEST && resultCode == Activity.RESULT_OK) {
-//            val title: String = data.getStringExtra(EXTRA_TITLE).toString()
-//            val description: String = data.getStringExtra(EXTRA_DESCRIPTION).toString()
-//            val priority: Int = data.getIntExtra(EXTRA_PRIORITY, -1)
-//            vm.insert(Note(title, description, priority))
-//            Toast.makeText(this, "Event added Successfully!", Toast.LENGTH_SHORT).show()
-//
-//        } else if (data != null && requestCode == DELETE_NOTE_REQUEST) {
-//            val id = data.getIntExtra(EXTRA_ID, -1)
-//            if (id == -1) {
-//                Toast.makeText(this, "Event couldn't be updated!", Toast.LENGTH_SHORT).show()
-//                return
-//            }
-//            val title: String = data.getStringExtra(EXTRA_TITLE).toString()
-//            val description: String =
-//                data.getStringExtra(EXTRA_DESCRIPTION).toString()
-//            val priority: Int = data.getIntExtra(EXTRA_PRIORITY, -1)
-//            vm.delete(Note(title, description, priority, id))
-//            Toast.makeText(this, "Event updated!", Toast.LENGTH_SHORT).show()
-//
-//        }else if (data != null && requestCode == EDIT_NOTE_REQUEST) {
-//            val id = data.getIntExtra(EXTRA_ID, -1)
-//            if (id == -1) {
-//                Toast.makeText(this, "Event couldn't be updated!", Toast.LENGTH_SHORT).show()
-//                return
-//            }
-//            val title: String = data.getStringExtra(EXTRA_TITLE).toString()
-//            val description: String =
-//                data.getStringExtra(EXTRA_DESCRIPTION).toString()
-//            val priority: Int = data.getIntExtra(EXTRA_PRIORITY, -1)
-//            vm.update(Note(title, description, priority, id))
-//            Toast.makeText(this, "Event updated!", Toast.LENGTH_SHORT).show()
-//
-//        } else {
-//            Toast.makeText(this, "Event not saved!", Toast.LENGTH_SHORT).show()
-//        }
+        if (data != null && requestCode == ADD_NOTE_REQUEST && resultCode == Activity.RESULT_OK) {
+            val title: String = data.getStringExtra(EXTRA_TITLE).toString()
+            val description: String = data.getStringExtra(EXTRA_DESCRIPTION).toString()
+            val link: String =data.getStringExtra(EXTRA_LINK).toString()
+            val priority: Int = data.getIntExtra(EXTRA_PRIORITY, -1)
+            vm.insert(Note(title, description,priority,link))
+            Toast.makeText(this, "Event added Successfully!", Toast.LENGTH_SHORT).show()
+
+        } else if (data != null && requestCode == DELETE_NOTE_REQUEST) {
+            val id = data.getIntExtra(EXTRA_ID, -1)
+            if (id == -1) {
+                Toast.makeText(this, "Event couldn't be updated!", Toast.LENGTH_SHORT).show()
+                return
+            }
+            val title: String = data.getStringExtra(EXTRA_TITLE).toString()
+            val description: String =data.getStringExtra(EXTRA_DESCRIPTION).toString()
+            val link: String =data.getStringExtra(EXTRA_LINK).toString()
+            val priority: Int = data.getIntExtra(EXTRA_PRIORITY, -1)
+            vm.delete(Note(title, description, priority,link, id))
+            Toast.makeText(this, "Event updated!", Toast.LENGTH_SHORT).show()
+
+        }else if (data != null && requestCode == EDIT_NOTE_REQUEST) {
+            val id = data.getIntExtra(EXTRA_ID, -1)
+            if (id == -1) {
+                Toast.makeText(this, "Event couldn't be updated!", Toast.LENGTH_SHORT).show()
+                return
+            }
+            val title: String = data.getStringExtra(EXTRA_TITLE).toString()
+            val description: String =data.getStringExtra(EXTRA_DESCRIPTION).toString()
+            val link: String =data.getStringExtra(EXTRA_LINK).toString()
+            val priority: Int = data.getIntExtra(EXTRA_PRIORITY, -1)
+            vm.update(Note(title, description, priority,link, id))
+            Toast.makeText(this, "Event updated!", Toast.LENGTH_SHORT).show()
+
+        } else {
+            Toast.makeText(this, "Event not saved!", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

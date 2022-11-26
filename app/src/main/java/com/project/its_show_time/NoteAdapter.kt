@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil.DiffResult.NO_POSITION
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
@@ -40,14 +41,14 @@ class NoteAdapter(
         val imUpdate: ImageButton = itemView.findViewById(R.id.ib_edit)
 
         init {
-//            imUpdate.setOnClickListener {
-//                if(adapterPosition != NO_POSITION)
-//                    onItemClickListener("edit",getItem(adapterPosition))
-//            }
-//            imDelete.setOnClickListener {
-//                if (position != NO_POSITION)
-//                    onItemClickListener("delete", getItem(position))
-//            }
+            imUpdate.setOnClickListener {
+                if(adapterPosition != NO_POSITION)
+                    onItemClickListener("edit",getItem(adapterPosition))
+            }
+            imDelete.setOnClickListener {
+                if (position != NO_POSITION)
+                    onItemClickListener("delete", getItem(position))
+            }
         }
 
     }
