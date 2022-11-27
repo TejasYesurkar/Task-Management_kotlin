@@ -167,6 +167,7 @@ class SideNavigationActivity : AppCompatActivity() {
                 intent.putExtra(EXTRA_ID, clickedNote.id)
                 intent.putExtra(EXTRA_TITLE, clickedNote.title)
                 intent.putExtra(EXTRA_DESCRIPTION, clickedNote.description)
+                intent.putExtra(EXTRA_LINK, clickedNote.docLink)
                 intent.putExtra(EXTRA_PRIORITY, clickedNote.priority)
                 startActivityForResult(intent, EDIT_NOTE_REQUEST)
             }
@@ -189,7 +190,7 @@ class SideNavigationActivity : AppCompatActivity() {
             val description: String = data.getStringExtra(EXTRA_DESCRIPTION).toString()
             val link: String =data.getStringExtra(EXTRA_LINK).toString()
             val priority: Int = data.getIntExtra(EXTRA_PRIORITY, -1)
-            vm.insert(Note(title, description,priority,link))
+//            vm.insert(Note(title, description,priority,link))
             Toast.makeText(this, "Event added Successfully!", Toast.LENGTH_SHORT).show()
 
         } else if (data != null && requestCode == DELETE_NOTE_REQUEST) {
@@ -216,8 +217,9 @@ class SideNavigationActivity : AppCompatActivity() {
             val link: String =data.getStringExtra(EXTRA_LINK).toString()
             val priority: Int = data.getIntExtra(EXTRA_PRIORITY, -1)
             vm.update(Note(title, description, priority,link, id))
+            finish();
+            startActivity(getIntent());
             Toast.makeText(this, "Event updated!", Toast.LENGTH_SHORT).show()
-
         } else {
             Toast.makeText(this, "Event not saved!", Toast.LENGTH_SHORT).show()
         }

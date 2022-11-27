@@ -1,5 +1,6 @@
 package com.project.its_show_time
 
+import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
 import com.project.roomdbkotlin.db.Note
 
@@ -11,6 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil.DiffResult.NO_POSITION
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import kotlin.coroutines.coroutineContext
 
 class NoteAdapter(
     private val onItemClickListener: (text: String, note: Note) -> Unit
@@ -28,7 +30,18 @@ class NoteAdapter(
             holder.tvTitle.text = title
             holder.tvDescription.text = docLink
             holder.tvPriority.text = docLink
+
+            holder.tvTitle.setOnClickListener {
+                try {
+//                (holder.itemView.context as HomeActivity).clickAdapater(holder.textViewLink.text as String)
+                (holder.itemView.context  as  SideNavigationActivity).clickAdapater(holder.tvTitle.text as String)
+                    Log.d("TAGG","Try"+holder.tvTitle.text)
+                } catch (e: Exception) {
+                    Log.d(">>",e.toString())
+                }
+            }
         }
+
     }
 
     fun getNoteAt(position: Int) = getItem(position)
@@ -41,6 +54,12 @@ class NoteAdapter(
         val imUpdate: ImageButton = itemView.findViewById(R.id.ib_edit)
 
         init {
+
+            itemView.setOnClickListener {
+                    (itemView.context  as  SideNavigationActivity).clickAdapater(getItem(adapterPosition).docLink)
+
+            }
+
             imUpdate.setOnClickListener {
                 if(adapterPosition != NO_POSITION)
                     onItemClickListener("edit",getItem(adapterPosition))

@@ -38,7 +38,7 @@ abstract class NoteDatabase : RoomDatabase() {
         private fun populateDatabase(db: NoteDatabase) {
             val noteDao = db.noteDao()
             subscribeOnBackground {
-                noteDao.insert(Note("Myself", "desc 1", 1,"https://1drv.ms/w/s!AuQ3HZhoo9VRgz41mEvFSDfw0YYP?e=QqW9QT"))
+                noteDao.insert(Note("Myself", "Myself", 1,"https://1drv.ms/w/s!AuQ3HZhoo9VRgz41mEvFSDfw0YYP?e=QqW9QT"))
                 noteDao.insert(Note("title 2", "desc 2", 2,""))
                 noteDao.insert(Note("title 3", "desc 3", 3,""))
 

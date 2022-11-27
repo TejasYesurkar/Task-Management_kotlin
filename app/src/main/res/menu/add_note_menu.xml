@@ -8,6 +8,11 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/update_note"
+        android:icon="@drawable/ic_update"
+        android:title="Update"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/delete_note"
         android:icon="@drawable/ic_baseline_delete_24"
         android:title="Delete"

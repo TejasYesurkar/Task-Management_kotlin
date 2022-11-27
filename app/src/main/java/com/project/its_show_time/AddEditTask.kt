@@ -50,6 +50,14 @@ class AddEditTask : AppCompatActivity() {
         btnDelete.setOnClickListener {
             deleteNote()
         }
+        btnUpdate.setOnClickListener {
+            val title = et_title.text.toString()
+            val desc = et_desc.text.toString()
+            val link = et_link.text.toString()
+            val priority = number_picker_prior.value
+
+        vm.update(Note(title, desc,priority,link))
+        }
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
         vm = ViewModelProviders.of(this)[NoteViewModel::class.java]
         noteId = intent.getIntExtra(EXTRA_ID, -1)
@@ -92,8 +100,37 @@ class AddEditTask : AppCompatActivity() {
                 deleteNote()
                 return true
             }
+            R.id.update_note -> {
+                UpdateNote()
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun UpdateNote() {
+        val title = et_title.text.toString()
+        val desc = et_desc.text.toString()
+        val link = et_link.text.toString()
+        val priority = number_picker_prior.value
+
+
+        if (title.isEmpty() || desc.isEmpty()) {
+            Toast.makeText(this, "please insert title and description", Toast.LENGTH_SHORT).show()
+            return
+        }
+        vm.update(Note(title, desc, priority,link))
+        val data = Intent()
+        // only if note ID was provided i.e. we are editing
+        if (noteId != -1)
+            data.putExtra(EXTRA_ID, noteId)
+        data.putExtra(EXTRA_TITLE, title)
+        data.putExtra(EXTRA_DESCRIPTION, desc)
+        data.putExtra(EXTRA_LINK, link)
+        data.putExtra(EXTRA_PRIORITY, priority)
+
+        setResult(Activity.RESULT_OK, data)
+        finish()
     }
 
     private fun saveNote() {

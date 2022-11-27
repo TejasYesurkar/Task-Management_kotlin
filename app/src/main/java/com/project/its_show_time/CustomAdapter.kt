@@ -33,14 +33,7 @@ class CustomAdapter(private val mList: List<ItemsViewModel>) :
         // sets the text to the textview from our itemHolder class
         holder.textView.text = ItemsViewModel.text
         holder.textViewLink.text = ItemsViewModel.textLink
-        holder.itemView.setOnClickListener {
-            try {
-//                (holder.itemView.context as HomeActivity).clickAdapater(holder.textViewLink.text as String)
-                (holder.itemView.context  as  SideNavigationActivity).clickAdapater(holder.textViewLink.text as String)
-            } catch (e: Exception) {
-                Log.d(">>",e.toString())
-            }
-        }
+
     }
 
     // return the number of the items in the list
