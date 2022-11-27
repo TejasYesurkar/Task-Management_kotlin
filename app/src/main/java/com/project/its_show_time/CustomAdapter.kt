@@ -33,9 +33,10 @@ class CustomAdapter(private val mList: List<ItemsViewModel>) :
         // sets the text to the textview from our itemHolder class
         holder.textView.text = ItemsViewModel.text
         holder.textViewLink.text = ItemsViewModel.textLink
-        holder.imageviewLink.setOnClickListener {
+        holder.itemView.setOnClickListener {
             try {
-                (holder.itemView.context as HomeActivity).clickAdapater(holder.textViewLink.text as String)
+//                (holder.itemView.context as HomeActivity).clickAdapater(holder.textViewLink.text as String)
+                (holder.itemView.context  as  SideNavigationActivity).clickAdapater(holder.textViewLink.text as String)
             } catch (e: Exception) {
                 Log.d(">>",e.toString())
             }
@@ -56,19 +57,4 @@ class CustomAdapter(private val mList: List<ItemsViewModel>) :
         val textViewLink: TextView = itemView.findViewById(R.id.textViewDesc)
 
     }
-
-     suspend fun onclick() {
-        Log.d(">>", "Adapter")
-        (currentCoroutineContext() as  WebViewActivity).clickAdapater()
-    }
-
-    override suspend fun onClickItem() {
-        (currentCoroutineContext() as  WebViewActivity).clickAdapater()
-
-    }
-
-    override fun onclickK() {
-        TODO("Not yet implemented")
-    }
-
 }

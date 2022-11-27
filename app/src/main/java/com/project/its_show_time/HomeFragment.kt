@@ -2,23 +2,36 @@ package com.project.its_show_time
 
 import CustomAdapter
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class HomeActivity : AppCompatActivity(),OnClikInterface {
-
+class HomeFragment  : Fragment() {
+    private lateinit var recyclerview : RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+
+
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        lateinit var view: View
+
+        view = inflater!!.inflate(R.layout.fragment_home, container, false) as View;
         // getting the recyclerview by its id
-        val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
+        recyclerview = view.findViewById<RecyclerView>(R.id.recyclerview)
 
         // this creates a vertical layout Manager
-        recyclerview.layoutManager = LinearLayoutManager(this)
+        recyclerview?.layoutManager = LinearLayoutManager(activity)
 
         // ArrayList of class ItemsViewModel
         val data = ArrayList<ItemsViewModel>()
@@ -33,7 +46,10 @@ class HomeActivity : AppCompatActivity(),OnClikInterface {
         val adapter = CustomAdapter(data)
 
         // Setting the Adapter with the recyclerview
-        recyclerview.adapter = adapter
+        recyclerview?.adapter = adapter
 
+        // Inflate the layout for this fragment
+        return view
     }
+
 }

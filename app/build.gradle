@@ -10,6 +10,9 @@ plugins {
 android {
     namespace 'com.project.its_show_time'
     compileSdk 32
+    buildFeatures {
+        dataBinding true
+    }
 
     defaultConfig {
         applicationId "com.project.its_show_time"

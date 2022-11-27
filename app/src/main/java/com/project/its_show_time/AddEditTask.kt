@@ -51,7 +51,7 @@ class AddEditTask : AppCompatActivity() {
             deleteNote()
         }
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
-
+        vm = ViewModelProviders.of(this)[NoteViewModel::class.java]
         noteId = intent.getIntExtra(EXTRA_ID, -1)
         mode = if (noteId == -1) Mode.AddNote
         else Mode.EditNote
@@ -107,7 +107,7 @@ class AddEditTask : AppCompatActivity() {
             Toast.makeText(this, "please insert title and description", Toast.LENGTH_SHORT).show()
             return
         }
-
+        vm.insert(Note(title, desc,priority,link))
         val data = Intent()
         // only if note ID was provided i.e. we are editing
         if (noteId != -1)
