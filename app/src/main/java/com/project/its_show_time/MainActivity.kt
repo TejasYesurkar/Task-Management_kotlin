@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
             val description: String = data.getStringExtra(EXTRA_DESCRIPTION).toString()
             val link: String =data.getStringExtra(EXTRA_LINK).toString()
             val priority: Int = data.getIntExtra(EXTRA_PRIORITY, -1)
-            vm.insert(Note(title, description,priority,link))
+//            vm.insert(Note(title, description,priority,link))
             Toast.makeText(this, "Event added Successfully!", Toast.LENGTH_SHORT).show()
 
         } else if (data != null && requestCode == DELETE_NOTE_REQUEST) {
@@ -127,11 +127,11 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Event couldn't be updated!", Toast.LENGTH_SHORT).show()
                 return
             }
-            val title: String = data.getStringExtra(EXTRA_TITLE).toString()
-            val description: String =data.getStringExtra(EXTRA_DESCRIPTION).toString()
-            val link: String =data.getStringExtra(EXTRA_LINK).toString()
-            val priority: Int = data.getIntExtra(EXTRA_PRIORITY, -1)
-            vm.update(Note(title, description, priority,link, id))
+//            val title: String = data.getStringExtra(EXTRA_TITLE).toString()
+//            val description: String =data.getStringExtra(EXTRA_DESCRIPTION).toString()
+//            val link: String =data.getStringExtra(EXTRA_LINK).toString()
+//            val priority: Int = data.getIntExtra(EXTRA_PRIORITY, -1)
+//            vm.update(Note(title, description, priority,link, id))
             Toast.makeText(this, "Event updated!", Toast.LENGTH_SHORT).show()
 
         } else {

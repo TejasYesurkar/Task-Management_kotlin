@@ -1,9 +1,11 @@
 package com.project.its_show_time
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.AttributeSet
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -22,6 +24,9 @@ const val EXTRA_LINK = " com.huawei.todolist.EXTRA_LINK"
 const val EXTRA_PRIORITY = " com.huawei.todolist.EXTRA_PRIORITY"
 
 class AddEditTask : AppCompatActivity() {
+    private var mainMenu: Menu? = null
+    private var menuShowing = false
+
     private lateinit var mode: Mode
     private var noteId: Int = -1
     private lateinit var number_picker_prior: NumberPicker
@@ -57,7 +62,18 @@ class AddEditTask : AppCompatActivity() {
             val priority = number_picker_prior.value
 
         vm.update(Note(title, desc,priority,link))
+            finish()
         }
+        btnSave.setOnClickListener {
+            val title = et_title.text.toString()
+            val desc = et_desc.text.toString()
+            val link = et_link.text.toString()
+            val priority = number_picker_prior.value
+
+            vm.insert(Note(title, desc,priority,link))
+            finish()
+        }
+        toggleMenuVisibility()
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
         vm = ViewModelProviders.of(this)[NoteViewModel::class.java]
         noteId = intent.getIntExtra(EXTRA_ID, -1)
@@ -86,9 +102,26 @@ class AddEditTask : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val menuInflater = menuInflater
         menuInflater.inflate(R.menu.add_note_menu, menu)
+        mainMenu = menu
+        when (mode) {
+            Mode.AddNote -> {
+                mainMenu?.findItem(R.id.save_note)?.isVisible = true
+                mainMenu?.findItem(R.id.update_note)?.isVisible = false
+            }
+            Mode.EditNote -> {
+                mainMenu?.findItem(R.id.save_note)?.isVisible = false
+                mainMenu?.findItem(R.id.update_note)?.isVisible = true
+            }
+        }
+
+        menuInflater.inflate(R.menu.add_note_menu, menu)
         return true
     }
 
+    fun toggleMenuVisibility() {
+        mainMenu?.findItem(R.id.save_note)?.isVisible   = false
+        menuShowing = !menuShowing
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -144,7 +177,7 @@ class AddEditTask : AppCompatActivity() {
             Toast.makeText(this, "please insert title and description", Toast.LENGTH_SHORT).show()
             return
         }
-        vm.insert(Note(title, desc,priority,link))
+//        vm.insert(Note(title, desc,priority,link))
         val data = Intent()
         // only if note ID was provided i.e. we are editing
         if (noteId != -1)
