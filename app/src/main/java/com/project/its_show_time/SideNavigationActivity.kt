@@ -119,6 +119,7 @@ class SideNavigationActivity : AppCompatActivity() {
         // on below line we are adding on
         // click listener for settings fab
         settingsFAB.setOnClickListener {
+            startActivity(Intent(applicationContext, DailyExpenseActivity::class.java))
             // on below line we are displaying a toast message
             Toast.makeText(this@SideNavigationActivity, "Daily Expense..", Toast.LENGTH_LONG).show()
         }

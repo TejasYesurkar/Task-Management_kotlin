@@ -6,18 +6,18 @@ import androidx.room.*
 @Dao
 interface ExpenseDao {
     @Insert
-    fun insert(note: Expense)
+    fun insert(expense: Expense)
 
     @Update
-    fun update(note: Expense)
+    fun update(expense: Expense)
 
     @Delete
-    fun delete(note: Expense)
+    fun delete(expense: Expense)
 
     @Query("delete from expense_table")
     fun deleteAllNotes()
 
-    @Query("select * from expense_table ")
+    @Query("select * from expense_table")
     fun getAllNotes(): LiveData<List<Expense>>
 
 
