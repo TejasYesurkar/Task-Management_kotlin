@@ -1,13 +1,16 @@
 package com.project.its_show_time
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.project.roomdbkotlin.db.Expense
 import com.project.roomdbkotlin.db.ExpenseViewModel
+import com.project.roomdbkotlin.db.Note
 import kotlinx.android.synthetic.main.activity_add_edit_task.*
 import kotlinx.android.synthetic.main.activity_add_expsense.*
 import kotlinx.android.synthetic.main.activity_add_expsense.view.*
@@ -16,12 +19,13 @@ import java.util.*
 
 class AddExpsense : AppCompatActivity() {
     private lateinit var spinner: Spinner
-    private lateinit var textDate: EditText
+    private lateinit var textDate: TextView
     private lateinit var editResoan: EditText
     private lateinit var editAmount : EditText
-    private lateinit var exp_date: String
+    private var exp_date: String =""
     private lateinit var exp_type: String
     private lateinit var vm: ExpenseViewModel
+    private var noteId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +33,18 @@ class AddExpsense : AppCompatActivity() {
         spinner = findViewById(R.id.spinnerType) as Spinner
         editResoan = findViewById(R.id.et_reason) as EditText
         editAmount = findViewById(R.id.et_amount) as EditText
+        textDate = findViewById(R.id.et_date) as TextView
 
+        textDate.setText(intent.getStringExtra(EXTRA_DATE))
+        editResoan.setText(intent.getStringExtra(EXTRA_REASON))
+        editAmount.setText(intent.getIntExtra(EXTRA_AMOUNT,0).toString())
+
+        noteId = intent.getIntExtra(EXTRAID, -1)
+        if(noteId == -1){
+            Log.d("TAGG","-1")
+        }else{
+            Log.d("TAGG",""+noteId)
+        }
         vm = ViewModelProviders.of(this)[ExpenseViewModel::class.java]
         var types = resources.getStringArray(R.array.investment)
         if (spinner != null) {
@@ -64,7 +79,7 @@ class AddExpsense : AppCompatActivity() {
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
-        val textDate = findViewById(R.id.et_date) as TextView
+
         val dpd = DatePickerDialog(
             this,
             DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
@@ -86,10 +101,16 @@ class AddExpsense : AppCompatActivity() {
         var typeOfExpense =exp_type
         var resoanOfExpense =editResoan.text
         var amt =Integer.parseInt(et_amount.text.toString())
+        if(noteId == -1){
+            vm.insert(Expense(typeOfExpense,date,amt, resoanOfExpense.toString()))
+        }else{
+            vm.update(Expense(typeOfExpense,date,amt, resoanOfExpense.toString(),noteId))
+        }
+        val intent = Intent(this, DailyExpenseActivity::class.java)
+        startActivity(intent)
 
-
-        vm.insert(Expense(typeOfExpense,date,amt, resoanOfExpense.toString()))
         finish()
+
     }
 
 }

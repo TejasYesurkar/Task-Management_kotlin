@@ -19,6 +19,12 @@ const val ADD_EXPENSE_REQUEST = 1
 const val EDIT_EXPENSE_REQUEST = 2
 const val DELETE_EXPENSE_REQUEST = 3
 
+const val EXTRAID = "EXTRA_ID"
+const val EXTRA_TYPE = "EXTRA_TYPE"
+const val EXTRA_AMOUNT = "EXTRA_AMOUNT"
+const val EXTRA_DATE = "EXTRA_DATE"
+const val EXTRA_REASON = "EXTRA_REASON"
+
 class DailyExpenseActivity : AppCompatActivity() {
     private lateinit var vm: ExpenseViewModel
     private lateinit var adapter: ExpenseAdapter
@@ -38,6 +44,7 @@ class DailyExpenseActivity : AppCompatActivity() {
         button_add_note.setOnClickListener {
             val intent = Intent(this, AddExpsense::class.java)
             startActivityForResult(intent, ADD_EXPENSE_REQUEST)
+            finish()
         }
 
         vm = ViewModelProviders.of(this)[ExpenseViewModel::class.java]
@@ -53,26 +60,20 @@ class DailyExpenseActivity : AppCompatActivity() {
         recycler_view.setHasFixedSize(true)
 
         adapter = ExpenseAdapter { text, clickedNote ->
-            if (text.equals("delete")) {
-//                val intent = Intent(this, AddEditTask::class.java)
-//                intent.putExtra(EXTRA_ID, clickedNote.id)
-//                intent.putExtra(EXTRA_TITLE, clickedNote.title)
-//                intent.putExtra(EXTRA_DESCRIPTION, clickedNote.description)
-//                intent.putExtra(EXTRA_PRIORITY, clickedNote.priority)
-//                startActivityForResult(intent, DELETE_NOTE_REQUEST)
-
-            } else if (text.equals("edit")) {
-
-//                val intent = Intent(this, AddEditTask::class.java)
-//                intent.putExtra(EXTRA_ID, clickedNote.id)
-//                intent.putExtra(EXTRA_TITLE, clickedNote.title)
-//                intent.putExtra(EXTRA_DESCRIPTION, clickedNote.description)
-//                intent.putExtra(EXTRA_PRIORITY, clickedNote.priority)
-//                startActivityForResult(intent, EDIT_NOTE_REQUEST)
+            if (text.equals("edit")) {
+                val intent = Intent(this, AddExpsense::class.java)
+                intent.putExtra(EXTRAID, clickedNote.id)
+                intent.putExtra(EXTRA_TYPE, clickedNote.type)
+                intent.putExtra(EXTRA_AMOUNT, clickedNote.amount)
+                intent.putExtra(EXTRA_REASON, clickedNote.reason)
+                intent.putExtra(EXTRA_DATE, clickedNote.date)
+                startActivityForResult(intent, EDIT_NOTE_REQUEST)
+                finish()
             }
 
         }
         recycler_view.adapter = adapter
+
     }
 
     private fun setUpListeners() {

@@ -28,7 +28,7 @@ class ExpenseAdapter(
 
     override fun onBindViewHolder(holder: ExpenseHolder, position: Int) {
         with(getItem(position)) {
-            holder.tvTitle.text = type
+            holder.tvTitle.text = reason
             holder.tvDescription.text = date
             holder.tvAmout.text = "₹ "+amount.toString()
 
@@ -52,7 +52,6 @@ class ExpenseAdapter(
         val tvDescription: TextView = itemView.findViewById(R.id.text_view_description)
         val tvPriority: TextView = itemView.findViewById(R.id.text_view_priority)
         val tvAmout: TextView = itemView.findViewById(R.id.textViewSubtext)
-        val imDelete: ImageButton = itemView.findViewById(R.id.ib_delete)
         val imUpdate: ImageButton = itemView.findViewById(R.id.ib_edit)
 
         init {
@@ -66,10 +65,10 @@ class ExpenseAdapter(
                 if(adapterPosition != NO_POSITION)
                     onItemClickListener("edit",getItem(adapterPosition))
             }
-            imDelete.setOnClickListener {
-                if (position != NO_POSITION)
-                    onItemClickListener("delete", getItem(position))
-            }
+//            imDelete.setOnClickListener {
+//                if (position != NO_POSITION)
+//                    onItemClickListener("delete", getItem(position))
+//            }
         }
 
     }
