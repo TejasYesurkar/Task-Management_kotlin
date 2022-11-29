@@ -20,7 +20,7 @@ abstract class NoteDatabase : RoomDatabase() {
         fun getInstance(ctx: Context): NoteDatabase {
             if(instance == null)
                 instance = Room.databaseBuilder(ctx.applicationContext, NoteDatabase::class.java,
-                    "note_database")
+                    "not_database")
                     .fallbackToDestructiveMigration()
                     .addCallback(roomCallback)
                     .build()
@@ -44,8 +44,8 @@ abstract class NoteDatabase : RoomDatabase() {
                 noteDao.insert(Note("title 2", "desc 2", 2,""))
                 noteDao.insert(Note("title 3", "desc 3", 3,""))
 
-                expense.insert(Expense("Credit","11/28/2022", 100.0F,""))
-                expense.insert(Expense("Debit","11/28/2022", 10.0F,""))
+                expense.insert(Expense("Credit","11/28/2022", 100,""))
+                expense.insert(Expense("Debit","11/28/2022", 10,""))
 
             }
         }

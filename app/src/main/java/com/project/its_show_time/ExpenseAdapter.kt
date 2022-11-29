@@ -80,7 +80,6 @@ class ExpenseAdapter(
 private val diffCallback = object : DiffUtil.ItemCallback<Expense>() {
     override fun areItemsTheSame(oldItem: Expense, newItem: Expense) = oldItem.id == newItem.id
 
-    override fun areContentsTheSame(oldItem: Expense, newItem: Expense): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun areContentsTheSame(oldItem: Expense, newItem: Expense) =
+        oldItem.type == newItem.type
 }

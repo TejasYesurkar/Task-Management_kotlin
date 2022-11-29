@@ -5,6 +5,7 @@ import android.icu.lang.UCharacter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -23,7 +24,7 @@ class DailyExpenseActivity : AppCompatActivity() {
     private lateinit var adapter: ExpenseAdapter
     private lateinit var button_add_note: FloatingActionButton
     private lateinit var recycler_view: RecyclerView
-
+//    private var types = resources.getStringArray(R.array.investment)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_daily_expense)
@@ -32,6 +33,12 @@ class DailyExpenseActivity : AppCompatActivity() {
         setUpRecyclerView()
 
         setUpListeners()
+        button_add_note = findViewById(R.id.button_add_note) as FloatingActionButton
+
+        button_add_note.setOnClickListener {
+            val intent = Intent(this, AddExpsense::class.java)
+            startActivityForResult(intent, ADD_EXPENSE_REQUEST)
+        }
 
         vm = ViewModelProviders.of(this)[ExpenseViewModel::class.java]
 
@@ -40,6 +47,7 @@ class DailyExpenseActivity : AppCompatActivity() {
             adapter.submitList(it)
         })
     }
+
     private fun setUpRecyclerView() {
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.setHasFixedSize(true)
@@ -85,7 +93,7 @@ class DailyExpenseActivity : AppCompatActivity() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val note = adapter.getNoteAt(viewHolder.adapterPosition)
-//                vm.delete(note)
+                vm.delete(note)
             }
 
         }).attachToRecyclerView(recycler_view)
